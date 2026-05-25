@@ -4,7 +4,7 @@ A virtual consulting agency staffed entirely by AI agents. A user submits a brie
 
 Portfolio project demonstrating production-grade multi-agent orchestration: LangGraph supervisor pattern, two-tier model routing (Haiku + Sonnet), checkpointing, eval suite, observability.
 
-**Status:** Week 1 / 6 — Researcher agent in progress
+**Status:** Week 2 / 6 — Copywriter + Critic + 3-revision loop landed
 **Author:** Steven Sawarin · Tilburg, NL
 **Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · SQLite → Postgres · LangGraph (week 3+) · Next.js (week 4+)
 
@@ -18,13 +18,31 @@ uv sync
 
 # 2. Copy env, fill in keys
 cp .env.example .env
-# Edit .env — add ANTHROPIC_API_KEY and TAVILY_API_KEY
+# Edit .env — add GOOGLE_AI_STUDIO_KEY and TAVILY_API_KEY
 
-# 3. Run the Researcher agent on a sample brief
-uv run python -m backend.app.agents.researcher "Market analysis to launch a fitness app in the Netherlands"
+# 3. Run the FULL pipeline (Researcher -> Copywriter -> Critic loop)
+uv run python -m backend.app.pipeline "Market analysis to launch a fitness app in the Netherlands"
+
+# OR — run agents individually
+uv run python -m backend.app.agents.researcher "Your brief here"
+uv run python -m backend.app.agents.copywriter "Project name" --brief "original brief"
+uv run python -m backend.app.agents.critic --draft data/deliverables/.../report-X.md
+
+# Run tests
+uv run pytest -v
 ```
 
-Notes get saved to `data/notes/`.
+Notes get saved to `data/notes/`. Deliverables (drafts + final) to `data/deliverables/`.
+
+## Free-tier note
+
+Google's free tier on Gemini 2.5 Flash gives **20 requests/day** and **5 RPM**. A single full pipeline run (Researcher + Copywriter + Critic, 1-3 revisions) eats ~12-18 requests. So you can run ~1 brief per day on the free tier, or unlock Tier 1 (linked billing, $300 credits) for ~150 RPM and no daily cap.
+
+Once on Tier 1, pass `--no-pace` to disable the 15s inter-call delay:
+
+```bash
+uv run python -m backend.app.pipeline "Your brief" --no-pace
+```
 
 ---
 
