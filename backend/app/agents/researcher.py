@@ -14,6 +14,7 @@ Usage:
 
 from __future__ import annotations
 
+import argparse
 import os
 import re
 import sys
@@ -74,12 +75,12 @@ def _parse_retry_delay(err: genai_errors.ClientError, fallback: int = 60) -> int
     return fallback
 
 
-def _call_with_retry(client: genai.Client, contents: list, config) -> Any:
+def _call_with_retry(client: genai.Client, contents: list, config, *, model: str = MODEL) -> Any:
     """Call generate_content with automatic retry on 429 (rate limit) and 503 (overload)."""
     for attempt in range(1, RETRY_ON_429_MAX + 2):
         try:
             return client.models.generate_content(
-                model=MODEL,
+                model=model,
                 contents=contents,
                 config=config,
             )
@@ -100,14 +101,21 @@ def _call_with_retry(client: genai.Client, contents: list, config) -> Any:
             raise
 
 
-def run_researcher(brief: str, project_name: str | None = None) -> dict[str, Any]:
+def run_researcher(
+    brief: str,
+    project_name: str | None = None,
+    *,
+    model: str = MODEL,
+    max_iter: int = MAX_ITERATIONS,
+    pace_seconds: int = INTER_CALL_DELAY_SEC,
+) -> dict[str, Any]:
     """Run the Researcher loop on a brief. Returns a summary dict."""
     client = genai.Client(api_key=os.environ["GOOGLE_AI_STUDIO_KEY"])
 
     project = project_name or brief[:60]
 
     console.print(Panel.fit(
-        f"[bold]Brief:[/bold] {brief}\n[bold]Project:[/bold] {project}\n[bold]Model:[/bold] {MODEL}",
+        f"[bold]Brief:[/bold] {brief}\n[bold]Project:[/bold] {project}\n[bold]Model:[/bold] {model}",
         title="Researcher · Week 1",
         border_style="cyan",
     ))
@@ -134,13 +142,13 @@ def run_researcher(brief: str, project_name: str | None = None) -> dict[str, Any
     total_out_tokens = 0
     iteration = 0
 
-    for iteration in range(1, MAX_ITERATIONS + 1):
-        # Pace ourselves to respect free-tier 5 RPM (remove once on Tier 1).
-        if iteration > 1 and INTER_CALL_DELAY_SEC > 0:
-            console.print(f"[dim]  (pacing {INTER_CALL_DELAY_SEC}s for free-tier RPM)[/dim]")
-            time.sleep(INTER_CALL_DELAY_SEC)
+    for iteration in range(1, max_iter + 1):
+        # Pace ourselves to respect free-tier 5 RPM (--no-pace once on Tier 1).
+        if iteration > 1 and pace_seconds > 0:
+            console.print(f"[dim]  (pacing {pace_seconds}s for free-tier RPM)[/dim]")
+            time.sleep(pace_seconds)
 
-        resp = _call_with_retry(client, contents, config)
+        resp = _call_with_retry(client, contents, config, model=model)
 
         if resp.usage_metadata:
             total_in_tokens += resp.usage_metadata.prompt_token_count or 0
@@ -220,11 +228,31 @@ def _truncate(obj: Any, n: int = 80) -> str:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        console.print("[red]Usage:[/red] uv run python -m backend.app.agents.researcher \"<brief>\"")
-        sys.exit(1)
-    brief = " ".join(sys.argv[1:])
-    run_researcher(brief)
+    parser = argparse.ArgumentParser(
+        prog="researcher",
+        description="Run the Researcher agent on a client brief.",
+    )
+    parser.add_argument("brief", nargs="+", help="The client brief (quoted or as plain words)")
+    parser.add_argument("--project", "-p", help="Project name (defaults to first 60 chars of brief)")
+    parser.add_argument("--model", default=MODEL, help=f"Gemini model (default: {MODEL})")
+    parser.add_argument(
+        "--max-iter", type=int, default=MAX_ITERATIONS, dest="max_iter",
+        help=f"Max tool-use iterations (default: {MAX_ITERATIONS})",
+    )
+    parser.add_argument(
+        "--no-pace", action="store_true",
+        help="Disable free-tier RPM pacing (use after Tier 1 promotion)",
+    )
+    args = parser.parse_args()
+
+    brief = " ".join(args.brief)
+    run_researcher(
+        brief,
+        project_name=args.project,
+        model=args.model,
+        max_iter=args.max_iter,
+        pace_seconds=0 if args.no_pace else INTER_CALL_DELAY_SEC,
+    )
 
 
 if __name__ == "__main__":

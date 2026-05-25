@@ -42,6 +42,11 @@ graph = [
     { name = "langgraph" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "alembic", marker = "extra == 'db'", specifier = ">=1.13.0" },
@@ -64,6 +69,9 @@ requires-dist = [
     { name = "weasyprint", marker = "extra == 'docs'", specifier = ">=63.0" },
 ]
 provides-extras = ["db", "graph", "docs", "dev"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
 
 [[package]]
 name = "alembic"
