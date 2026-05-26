@@ -1,0 +1,12 @@
+{
+  "verdict": "APPROVE",
+  "feedback": "",
+  "rubric_scores": {
+    "structure": "PASS",
+    "citations": "PASS",
+    "specificity": "PASS",
+    "synthesis": "PASS",
+    "honesty": "PASS",
+    "voice": "PASS"
+  }
+}

@@ -57,6 +57,17 @@ function readJson<T>(file: string): T {
 // Hand-curated run index. New runs added here when they're committed.
 const RUN_INDEX: RunMeta[] = [
   {
+    slug: "design-agency-retainer",
+    brief:
+      "Sales motion redesign for a Tilburg-area design agency shifting from project work to retainer",
+    niche: "Design Agency · Operations",
+    date: "2026-05-26",
+    cost: "$0.02",
+    status: "approved",
+    revisions: 0,
+    notes: 4,
+  },
+  {
     slug: "brabant-fintech-pricing",
     brief:
       "Pricing strategy for a Dutch B2B fintech entering Brabant manufacturing",
@@ -84,6 +95,13 @@ export function getRun(slug: string): Run | null {
       v1: "pricing-strategy-brabant-fintech-critic-verdict.json",
       df: "pricing-strategy-brabant-fintech-FINAL.md",
       vf: "pricing-strategy-brabant-fintech-critic-verdict-FINAL.json",
+    },
+    "design-agency-retainer": {
+      // First-draft approved — no revision needed, so draft1 == final
+      d1: "design-agency-retainer-FINAL.md",
+      v1: "design-agency-retainer-critic-verdict-FINAL.json",
+      df: "design-agency-retainer-FINAL.md",
+      vf: "design-agency-retainer-critic-verdict-FINAL.json",
     },
   };
   const files = fileMap[slug];
