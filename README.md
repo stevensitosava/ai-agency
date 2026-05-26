@@ -4,10 +4,10 @@ A virtual consulting agency staffed entirely by AI agents. A user submits a brie
 
 Portfolio project demonstrating production-grade multi-agent orchestration: LangGraph supervisor pattern, two-tier model routing (Haiku + Sonnet), checkpointing, eval suite, observability.
 
-**Status:** Week 5 / 6 — Eval suite live, headline finding documented
-**Live:** [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app) · [Eval results](https://ai-agency-dashboard-omega.vercel.app/evaluation)
-**Author:** Steven Sawarin · Tilburg, NL
-**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js 16 + Tailwind 4 · Eval suite vs solo-Pro baseline
+**Status:** Week 6 / 6 — Shipped. Engineering notes + hire CTA live.
+**Live:** [Dashboard](https://ai-agency-dashboard-omega.vercel.app) · [Sample run](https://ai-agency-dashboard-omega.vercel.app/runs/brabant-fintech-pricing) · [Eval](https://ai-agency-dashboard-omega.vercel.app/evaluation) · [Engineering notes](https://ai-agency-dashboard-omega.vercel.app/notes)
+**Author:** Steven Sawarin · Tilburg, NL · srssdesing@gmail.com
+**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js 16 + Tailwind 4 · Independent-grader eval suite
 
 ---
 
@@ -56,7 +56,7 @@ uv run python -m backend.app.pipeline "Your brief" --no-pace
 | **3** | LangGraph refactor | StateGraph, checkpointing, conditional routing as pure function. 30 unit tests. | ✅ Committed |
 | **4** | UI + deployment | Next.js 16 dashboard, server components, restrained design system, Vercel deploy | ✅ [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app) |
 | **5** | Evaluation rigor | Eval framework: 15 briefs, baseline runner, independent grader, aggregate report. Headline finding: rubric scores don't capture source authenticity. | ✅ [/evaluation](https://ai-agency-dashboard-omega.vercel.app/evaluation) |
-| **6** | Polish + launch | Observability dashboard, cost tracker, demo video, README architecture doc. **Start applying.** | LinkedIn launch post + demo video |
+| **6** | Polish + hire signal | Engineering notes page (5 defensible decisions), hire CTA on landing, contact links throughout. | ✅ [/notes](https://ai-agency-dashboard-omega.vercel.app/notes) |
 
 ---
 

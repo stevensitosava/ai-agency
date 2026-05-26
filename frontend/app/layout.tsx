@@ -32,6 +32,12 @@ export default function RootLayout({
               >
                 Eval
               </Link>
+              <Link
+                href="/notes"
+                className="hover:text-ink transition-colors"
+              >
+                Notes
+              </Link>
               <a
                 href="https://github.com/stevensitosava/ai-agency"
                 target="_blank"

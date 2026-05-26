@@ -102,3 +102,23 @@ html, body {
   border-top: 1px solid var(--rule);
   margin: 2rem 0;
 }
+.prose-doc pre {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  margin: 1rem 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  overflow-x: auto;
+  border-radius: 0;
+  white-space: pre;
+}
+.prose-doc pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}

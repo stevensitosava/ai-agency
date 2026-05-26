@@ -183,18 +183,54 @@ export default function Home() {
               title="Open to roles"
               body={
                 <>
-                  Tilburg / Brabant AI engineering.{" "}
-                  <a
-                    href="https://stevensawarin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent underline"
-                  >
-                    stevensawarin.com
-                  </a>
+                  Tilburg / Brabant AI engineering. See{" "}
+                  <Link href="/notes" className="text-accent underline">
+                    engineering notes
+                  </Link>{" "}
+                  for the decisions worth defending.
                 </>
               }
             />
+          </div>
+        </div>
+      </section>
+
+      {/* HIRE CTA */}
+      <section className="bg-ink text-cream">
+        <div className="max-w-5xl mx-auto px-6 py-20">
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-[#E89456] mb-6">
+            ● Hiring signal
+          </div>
+          <h2 className="font-serif text-3xl lg:text-5xl leading-tight tracking-tight mb-6 max-w-3xl">
+            Six weeks. Eleven commits.
+            <br />
+            <em className="text-[#E89456] not-italic font-normal italic">
+              One shipped portfolio piece.
+            </em>
+          </h2>
+          <p className="text-[rgba(250,247,241,0.75)] text-lg leading-relaxed max-w-2xl mb-10">
+            If you&rsquo;re hiring AI engineers in Tilburg or Brabant and want
+            someone who can take a multi-agent system from empty repo to
+            shipped product while keeping every architecture decision
+            defensible — let&rsquo;s talk.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="mailto:srssdesing@gmail.com?subject=AI%20Agency%20—%20chat%3F"
+              className="bg-cream text-ink px-6 py-3.5 text-sm font-medium hover:bg-[#E89456] hover:text-cream transition-colors inline-flex items-center gap-2"
+            >
+              Email Steven
+              <span className="font-mono">→</span>
+            </a>
+            <a
+              href="https://stevensawarin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-[rgba(250,247,241,0.25)] text-cream px-6 py-3.5 text-sm font-medium hover:bg-[rgba(250,247,241,0.08)] transition-colors inline-flex items-center gap-2"
+            >
+              stevensawarin.com
+              <span className="font-mono">↗</span>
+            </a>
           </div>
         </div>
       </section>
