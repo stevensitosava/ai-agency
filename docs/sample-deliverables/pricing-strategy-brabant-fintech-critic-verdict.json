@@ -1,0 +1,15 @@
+{
+  "verdict": "REVISE",
+  "feedback": [
+    "Factual claims in the Executive Summary and Context sections lack citations. Every claim about market size, regional characteristics, or industry challenges must be sourced.",
+    "There are numerous incorrect citations in the Findings section. The cited source number often does not match the content of the claim. For example, claims about the Netherlands fintech market are incorrectly cited to a source about Brabant manufacturing, and claims about pricing models are incorrectly cited to sources about general manufacturing problems. All citations must be reviewed and corrected to point to the appropriate source for the specific claim being made."
+  ],
+  "rubric_scores": {
+    "structure": "PASS",
+    "citations": "FAIL",
+    "specificity": "PASS",
+    "synthesis": "PASS",
+    "honesty": "PASS",
+    "voice": "PASS"
+  }
+}
