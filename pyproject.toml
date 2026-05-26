@@ -11,19 +11,16 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "rich>=13.9.0",
     "httpx>=0.27.0",
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
 ]
 
 [project.optional-dependencies]
-# Week 2+
+# Week 4+ — Postgres for production persistence
 db = [
     "sqlmodel>=0.0.22",
     "alembic>=1.13.0",
     "psycopg[binary]>=3.2.0",
-]
-# Week 3+ — LangGraph refactor
-graph = [
-    "langgraph>=0.2.0",
-    "langchain-google-genai>=2.0.0",
 ]
 # Week 4+ — deliverables
 docs = [

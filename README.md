@@ -4,9 +4,9 @@ A virtual consulting agency staffed entirely by AI agents. A user submits a brie
 
 Portfolio project demonstrating production-grade multi-agent orchestration: LangGraph supervisor pattern, two-tier model routing (Haiku + Sonnet), checkpointing, eval suite, observability.
 
-**Status:** Week 2 / 6 — Copywriter + Critic + 3-revision loop landed
+**Status:** Week 3 / 6 — LangGraph supervisor + checkpointing landed
 **Author:** Steven Sawarin · Tilburg, NL
-**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · SQLite → Postgres · LangGraph (week 3+) · Next.js (week 4+)
+**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js (week 4+)
 
 ---
 
@@ -50,34 +50,66 @@ uv run python -m backend.app.pipeline "Your brief" --no-pace
 
 | Week | Goal | Ship | Public artifact |
 |---|---|---|---|
-| **1** | Single-agent foundation | Researcher (web search → notes), raw Anthropic SDK, CLI | GitHub repo + README |
-| **2** | Multi-agent loop | Add Copywriter + Critic. PDF deliverable. Three-agent loop with max-3-revisions. | Blog post: "Building a multi-agent loop without LangGraph" |
-| **3** | LangGraph refactor | Supervisor pattern, checkpointing, two-tier model routing (Haiku + Sonnet) | Blog post: "Why I rewrote it in LangGraph" |
+| **1** | Single-agent foundation | Researcher (web search → notes), raw Gemini SDK, CLI | ✅ GitHub repo + README |
+| **2** | Multi-agent loop | Add Copywriter + Critic. Three-agent loop with max-3-revisions. Critic-approved sample deliverable. | ✅ `docs/sample-deliverables/` |
+| **3** | LangGraph refactor | StateGraph, checkpointing, conditional routing as pure function. 30 unit tests. | ✅ This commit |
 | **4** | UI + deployment | Next.js dashboard, live message stream, Vercel deploy | Live URL + LinkedIn post #1 |
 | **5** | Evaluation rigor | 15 Dutch-context test briefs vs solo Claude. Cost/quality data. | Blog post: "Evaluating a multi-agent system" |
 | **6** | Polish + launch | Observability dashboard, cost tracker, demo video, README architecture doc. **Start applying.** | LinkedIn launch post + demo video |
 
 ---
 
-## Architecture (final state)
+## Architecture — current (Week 3)
+
+The agency runs as a LangGraph `StateGraph`. Each node wraps one of the agent functions; a conditional edge after the Critic implements the bounded revision loop.
+
+```mermaid
+graph TD;
+    __start__([start]):::first
+    research(research)
+    copywrite(copywrite)
+    critique(critique)
+    bump_revisions(bump_revisions)
+    finalize(finalize)
+    __end__([end]):::last
+
+    __start__ --> research;
+    research --> copywrite;
+    copywrite --> critique;
+    critique -. REVISE .-> bump_revisions;
+    critique -. APPROVE .-> finalize;
+    bump_revisions --> copywrite;
+    finalize --> __end__;
+
+    classDef default fill:#f2f0ff,line-height:1.2
+    classDef first fill-opacity:0
+    classDef last fill:#bfb6fc
+```
+
+**Why LangGraph (added in Week 3, not Week 1):** The Week 1-2 pipeline was a plain Python loop — easy to read, no framework. The graph rewrite adds three things that justify the abstraction:
+
+1. **Checkpointing** — every state transition is persisted to `data/db/checkpoints.sqlite`. An interrupted run resumes from the last node via `--resume`.
+2. **State as data** — every node returns a partial `AgencyState` delta. No hidden globals, easy to test (see `tests/test_graph.py`).
+3. **Conditional routing as a function** — `decide_after_critic(state)` is a single pure function deciding APPROVE → finalize, REVISE → re-draft, or cap-reached → ship. Provably terminates.
+
+## Architecture — target (Week 4-6)
 
 ```
-                Next.js dashboard (week 4+)
+                Next.js dashboard (week 4)
                        │
                        ▼
-                FastAPI / WebSockets
+                FastAPI + WebSockets
                        │
                        ▼
-        LangGraph supervisor (CEO agent)
+                  LangGraph
+       (CEO supervisor multiplexes more agents)
        /        |        |          \
 Researcher  Copywriter  Strategist  Critic
        \        |        |          /
         Shared workspace (Postgres + pgvector)
                        │
-                  LangSmith traces
+                  LangSmith traces (week 5)
 ```
-
-**Week 1 is much simpler** — single Researcher + SQLite + CLI. The full architecture lands in week 3-4.
 
 ---
 
@@ -90,14 +122,25 @@ ai-agency/
 ├── README.md
 ├── backend/
 │   └── app/
-│       ├── agents/        # one file per agent
-│       │   └── researcher.py
+│       ├── pipeline.py    # CLI entry — runs the graph
+│       ├── graph.py       # LangGraph StateGraph + nodes + conditional edge
+│       ├── state.py       # AgencyState TypedDict
+│       ├── agents/        # one file per agent (pure functions, framework-free)
+│       │   ├── researcher.py
+│       │   ├── copywriter.py
+│       │   └── critic.py
 │       └── tools/         # tool implementations
 │           ├── web_search.py
-│           └── notes_writer.py
+│           ├── notes_writer.py
+│           └── report_writer.py
+├── tests/                 # 30 unit tests, no API calls required
+├── docs/
+│   ├── sample-deliverables/   # real agent output saved as portfolio
+│   └── build-log/             # weekly build-in-public posts
 └── data/
     ├── notes/             # agent-generated notes (gitignored)
-    └── deliverables/      # final outputs (gitignored)
+    ├── deliverables/      # draft + final reports (gitignored)
+    └── db/                # checkpoints.sqlite (gitignored)
 ```
 
 ---
