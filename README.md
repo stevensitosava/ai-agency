@@ -4,9 +4,10 @@ A virtual consulting agency staffed entirely by AI agents. A user submits a brie
 
 Portfolio project demonstrating production-grade multi-agent orchestration: LangGraph supervisor pattern, two-tier model routing (Haiku + Sonnet), checkpointing, eval suite, observability.
 
-**Status:** Week 3 / 6 — LangGraph supervisor + checkpointing landed
+**Status:** Week 4 / 6 — Next.js dashboard live on Vercel
+**Live:** [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app)
 **Author:** Steven Sawarin · Tilburg, NL
-**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js (week 4+)
+**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js 16 + Tailwind 4 (App Router, Server Components)
 
 ---
 
@@ -52,8 +53,8 @@ uv run python -m backend.app.pipeline "Your brief" --no-pace
 |---|---|---|---|
 | **1** | Single-agent foundation | Researcher (web search → notes), raw Gemini SDK, CLI | ✅ GitHub repo + README |
 | **2** | Multi-agent loop | Add Copywriter + Critic. Three-agent loop with max-3-revisions. Critic-approved sample deliverable. | ✅ `docs/sample-deliverables/` |
-| **3** | LangGraph refactor | StateGraph, checkpointing, conditional routing as pure function. 30 unit tests. | ✅ This commit |
-| **4** | UI + deployment | Next.js dashboard, live message stream, Vercel deploy | Live URL + LinkedIn post #1 |
+| **3** | LangGraph refactor | StateGraph, checkpointing, conditional routing as pure function. 30 unit tests. | ✅ Committed |
+| **4** | UI + deployment | Next.js 16 dashboard, server components, restrained design system, Vercel deploy | ✅ [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app) |
 | **5** | Evaluation rigor | 15 Dutch-context test briefs vs solo Claude. Cost/quality data. | Blog post: "Evaluating a multi-agent system" |
 | **6** | Polish + launch | Observability dashboard, cost tracker, demo video, README architecture doc. **Start applying.** | LinkedIn launch post + demo video |
 

@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+:root {
+  --ink: #0E0E0E;
+  --ash: #5B5851;
+  --mute: #8A867D;
+  --rule: #DDD7C8;
+  --cream: #FAF7F1;
+  --paper: #F4F0E4;
+  --accent: #B95B1A;
+  --accent-soft: #F1DBC5;
+  --pass: #1F7A4C;
+  --fail: #B23A2C;
+}
+
+@theme inline {
+  --color-background: var(--cream);
+  --color-foreground: var(--ink);
+  --color-ink: var(--ink);
+  --color-ash: var(--ash);
+  --color-mute: var(--mute);
+  --color-rule: var(--rule);
+  --color-paper: var(--paper);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-pass: var(--pass);
+  --color-fail: var(--fail);
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Geist", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-serif { font-family: "Fraunces", Georgia, serif; }
+.font-mono  { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+/* Prose styling for rendered deliverable markdown — restrained, lets Fraunces + Geist do the work. */
+.prose-doc h1,
+.prose-doc h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.prose-doc h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+}
+.prose-doc p {
+  color: var(--ash);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.prose-doc strong { color: var(--ink); font-weight: 500; }
+.prose-doc em { color: var(--ash); font-style: italic; }
+.prose-doc ol, .prose-doc ul {
+  margin-left: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--ash);
+  line-height: 1.7;
+}
+.prose-doc ol { list-style: decimal; }
+.prose-doc ul { list-style: disc; }
+.prose-doc li { margin-bottom: 0.35rem; }
+.prose-doc a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  word-break: break-word;
+}
+.prose-doc a:hover { text-decoration-thickness: 2px; }
+.prose-doc code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.85rem;
+  background: var(--paper);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  color: var(--ink);
+}
+.prose-doc hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
