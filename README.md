@@ -4,10 +4,10 @@ A virtual consulting agency staffed entirely by AI agents. A user submits a brie
 
 Portfolio project demonstrating production-grade multi-agent orchestration: LangGraph supervisor pattern, two-tier model routing (Haiku + Sonnet), checkpointing, eval suite, observability.
 
-**Status:** Week 4 / 6 — Next.js dashboard live on Vercel
-**Live:** [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app)
+**Status:** Week 5 / 6 — Eval suite live, headline finding documented
+**Live:** [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app) · [Eval results](https://ai-agency-dashboard-omega.vercel.app/evaluation)
 **Author:** Steven Sawarin · Tilburg, NL
-**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js 16 + Tailwind 4 (App Router, Server Components)
+**Stack:** Python 3.11+ · Google Gemini (Flash + Pro) · Tavily · LangGraph + SQLite checkpointer · Next.js 16 + Tailwind 4 · Eval suite vs solo-Pro baseline
 
 ---
 
@@ -55,7 +55,7 @@ uv run python -m backend.app.pipeline "Your brief" --no-pace
 | **2** | Multi-agent loop | Add Copywriter + Critic. Three-agent loop with max-3-revisions. Critic-approved sample deliverable. | ✅ `docs/sample-deliverables/` |
 | **3** | LangGraph refactor | StateGraph, checkpointing, conditional routing as pure function. 30 unit tests. | ✅ Committed |
 | **4** | UI + deployment | Next.js 16 dashboard, server components, restrained design system, Vercel deploy | ✅ [ai-agency-dashboard-omega.vercel.app](https://ai-agency-dashboard-omega.vercel.app) |
-| **5** | Evaluation rigor | 15 Dutch-context test briefs vs solo Claude. Cost/quality data. | Blog post: "Evaluating a multi-agent system" |
+| **5** | Evaluation rigor | Eval framework: 15 briefs, baseline runner, independent grader, aggregate report. Headline finding: rubric scores don't capture source authenticity. | ✅ [/evaluation](https://ai-agency-dashboard-omega.vercel.app/evaluation) |
 | **6** | Polish + launch | Observability dashboard, cost tracker, demo video, README architecture doc. **Start applying.** | LinkedIn launch post + demo video |
 
 ---

@@ -31,3 +31,6 @@ Thumbs.db
 *.swp
 
 .vercel
+eval/results/*/
+!eval/results/REPORT.md
+data/db/

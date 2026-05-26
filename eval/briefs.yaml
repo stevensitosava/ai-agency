@@ -1,0 +1,93 @@
+# Eval brief library — 15 Dutch-context test briefs across 6 categories.
+#
+# Each entry feeds two systems for comparison:
+#   1. The agency pipeline (Researcher -> Copywriter -> Critic loop)
+#   2. The baseline (solo Gemini 2.5 Pro, one-shot)
+#
+# Both outputs are then scored by an independent Grader (separate Pro instance,
+# same six-point rubric the Critic uses).
+#
+# Briefs deliberately concentrated on Tilburg / Brabant / Netherlands context
+# so domain familiarity matches the portfolio's target audience.
+
+briefs:
+  # ---- PRICING (3) ----
+  - id: pricing-fintech-brabant-manufacturing
+    category: pricing
+    difficulty: medium
+    brief: "Pricing strategy for a Dutch B2B fintech entering Brabant manufacturing"
+
+  - id: pricing-saas-tech-smb
+    category: pricing
+    difficulty: medium
+    brief: "Pricing strategy for a Dutch B2B SaaS targeting 10-50 employee tech companies"
+
+  - id: pricing-cybersec-family-biz
+    category: pricing
+    difficulty: hard
+    brief: "Pricing strategy for a Tilburg-area cybersecurity SaaS targeting NL family-owned businesses"
+
+  # ---- MARKET ENTRY (3) ----
+  - id: market-entry-hrtech-tilburg
+    category: market_entry
+    difficulty: medium
+    brief: "Market entry analysis for a B2B HR-tech SaaS launching in the Netherlands targeting 10-50 employee companies in Tilburg/Eindhoven"
+
+  - id: market-entry-us-fintech-smb
+    category: market_entry
+    difficulty: hard
+    brief: "Market entry analysis for a US fintech expanding to the Netherlands SMB segment"
+
+  - id: market-entry-localization-saas
+    category: market_entry
+    difficulty: medium
+    brief: "Localization strategy for a US-based vertical SaaS launching in NL and BE"
+
+  # ---- COMPETITIVE ANALYSIS (2) ----
+  - id: competitive-design-agency-eindhoven
+    category: competitive_analysis
+    difficulty: easy
+    brief: "Competitive analysis for a Tilburg-area design agency expanding into the Eindhoven market"
+
+  - id: competitive-ai-legal-tooling
+    category: competitive_analysis
+    difficulty: hard
+    brief: "Competitive landscape for an AI tooling startup serving Dutch enterprise legal departments"
+
+  # ---- GO TO MARKET (3) ----
+  - id: gtm-sustainable-ecom-be
+    category: go_to_market
+    difficulty: medium
+    brief: "Go-to-market plan for a Dutch sustainable e-commerce brand launching in Belgium"
+
+  - id: gtm-healthtech-gp-clinics
+    category: go_to_market
+    difficulty: medium
+    brief: "Customer acquisition plan for a Dutch healthtech serving GP clinics in Noord-Brabant"
+
+  - id: gtm-iot-retail
+    category: go_to_market
+    difficulty: hard
+    brief: "Channel strategy for a Brabant-based industrial IoT vendor entering NL retail"
+
+  # ---- POSITIONING (2) ----
+  - id: positioning-scaleup-international
+    category: positioning
+    difficulty: medium
+    brief: "Brand positioning for a Brabant-based scale-up rebranding for international expansion"
+
+  - id: positioning-deeptech-series-a
+    category: positioning
+    difficulty: hard
+    brief: "Investor positioning brief for a Brabant deeptech Series A round"
+
+  # ---- OPERATIONS (2) ----
+  - id: ops-sales-motion-redesign
+    category: operations
+    difficulty: hard
+    brief: "Sales motion redesign for a Dutch B2B SaaS shifting from product-led to enterprise"
+
+  - id: ops-talent-acquisition-ai
+    category: operations
+    difficulty: medium
+    brief: "Talent acquisition plan for a Tilburg AI startup scaling from 5 to 25 engineers in 18 months"
