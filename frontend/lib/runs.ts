@@ -1,10 +1,13 @@
-// Data layer for "agency runs" — reads sample deliverables from the repo at build time.
+// Data layer for "agency runs" — reads from a JSON index + markdown/JSON files
+// committed to frontend/lib/data/.
 //
-// In Week 5+ this will be a real database / API call, but for now the agency's
-// historical output lives as files committed to docs/sample-deliverables/.
+// The index lives at lib/data/runs-index.json so scripts (notably the
+// promote_brief.py promoter that lifts a Market Research Brief from RUBRIC
+// into the dashboard) can append new runs without touching this file.
 
 import fs from "node:fs";
 import path from "node:path";
+import indexJson from "./data/runs-index.json";
 
 export type RubricScores = {
   structure: "PASS" | "FAIL";
@@ -32,6 +35,15 @@ export type RunMeta = {
   notes: number;
 };
 
+export type RunFiles = {
+  draftFirst: string;
+  verdictFirst: string;
+  draftFinal: string;
+  verdictFinal: string;
+};
+
+export type RunIndexEntry = RunMeta & { files: RunFiles };
+
 export type Run = RunMeta & {
   draftFirst: string;
   verdictFirst: Verdict;
@@ -39,9 +51,8 @@ export type Run = RunMeta & {
   verdictFinal: Verdict;
 };
 
-// Sample-deliverables are bundled into the Next.js app at frontend/lib/data/
-// so the build context is self-contained (no relative paths outside frontend/).
-// The canonical source is docs/sample-deliverables/ in the repo root.
+const RUN_INDEX: RunIndexEntry[] = (indexJson as { runs: RunIndexEntry[] }).runs;
+
 function deliverablesDir(): string {
   return path.resolve(process.cwd(), "lib", "data");
 }
@@ -54,64 +65,20 @@ function readJson<T>(file: string): T {
   return JSON.parse(read(file)) as T;
 }
 
-// Hand-curated run index. New runs added here when they're committed.
-const RUN_INDEX: RunMeta[] = [
-  {
-    slug: "design-agency-retainer",
-    brief:
-      "Sales motion redesign for a Tilburg-area design agency shifting from project work to retainer",
-    niche: "Design Agency · Operations",
-    date: "2026-05-26",
-    cost: "$0.02",
-    status: "approved",
-    revisions: 0,
-    notes: 4,
-  },
-  {
-    slug: "brabant-fintech-pricing",
-    brief:
-      "Pricing strategy for a Dutch B2B fintech entering Brabant manufacturing",
-    niche: "B2B Fintech · Manufacturing",
-    date: "2026-05-26",
-    cost: "$0.03",
-    status: "approved",
-    revisions: 1,
-    notes: 4,
-  },
-];
-
 export function listRuns(): RunMeta[] {
-  return RUN_INDEX;
+  // Strip files field for the public list
+  return RUN_INDEX.map(({ files: _files, ...meta }) => meta);
 }
 
 export function getRun(slug: string): Run | null {
-  const meta = RUN_INDEX.find((r) => r.slug === slug);
-  if (!meta) return null;
-
-  // File mapping — matches the actual files committed to docs/sample-deliverables/
-  const fileMap: Record<string, { d1: string; v1: string; df: string; vf: string }> = {
-    "brabant-fintech-pricing": {
-      d1: "pricing-strategy-brabant-fintech.md",
-      v1: "pricing-strategy-brabant-fintech-critic-verdict.json",
-      df: "pricing-strategy-brabant-fintech-FINAL.md",
-      vf: "pricing-strategy-brabant-fintech-critic-verdict-FINAL.json",
-    },
-    "design-agency-retainer": {
-      // First-draft approved — no revision needed, so draft1 == final
-      d1: "design-agency-retainer-FINAL.md",
-      v1: "design-agency-retainer-critic-verdict-FINAL.json",
-      df: "design-agency-retainer-FINAL.md",
-      vf: "design-agency-retainer-critic-verdict-FINAL.json",
-    },
-  };
-  const files = fileMap[slug];
-  if (!files) return null;
-
+  const entry = RUN_INDEX.find((r) => r.slug === slug);
+  if (!entry) return null;
+  const { files, ...meta } = entry;
   return {
     ...meta,
-    draftFirst: read(files.d1),
-    verdictFirst: readJson<Verdict>(files.v1),
-    draftFinal: read(files.df),
-    verdictFinal: readJson<Verdict>(files.vf),
+    draftFirst: read(files.draftFirst),
+    verdictFirst: readJson<Verdict>(files.verdictFirst),
+    draftFinal: read(files.draftFinal),
+    verdictFinal: readJson<Verdict>(files.verdictFinal),
   };
 }

@@ -1,0 +1,36 @@
+{
+  "runs": [
+    {
+      "slug": "design-agency-retainer",
+      "brief": "Sales motion redesign for a Tilburg-area design agency shifting from project work to retainer",
+      "niche": "Design Agency · Operations",
+      "date": "2026-05-26",
+      "cost": "$0.02",
+      "status": "approved",
+      "revisions": 0,
+      "notes": 4,
+      "files": {
+        "draftFirst": "design-agency-retainer-FINAL.md",
+        "verdictFirst": "design-agency-retainer-critic-verdict-FINAL.json",
+        "draftFinal": "design-agency-retainer-FINAL.md",
+        "verdictFinal": "design-agency-retainer-critic-verdict-FINAL.json"
+      }
+    },
+    {
+      "slug": "brabant-fintech-pricing",
+      "brief": "Pricing strategy for a Dutch B2B fintech entering Brabant manufacturing",
+      "niche": "B2B Fintech · Manufacturing",
+      "date": "2026-05-26",
+      "cost": "$0.03",
+      "status": "approved",
+      "revisions": 1,
+      "notes": 4,
+      "files": {
+        "draftFirst": "pricing-strategy-brabant-fintech.md",
+        "verdictFirst": "pricing-strategy-brabant-fintech-critic-verdict.json",
+        "draftFinal": "pricing-strategy-brabant-fintech-FINAL.md",
+        "verdictFinal": "pricing-strategy-brabant-fintech-critic-verdict-FINAL.json"
+      }
+    }
+  ]
+}
