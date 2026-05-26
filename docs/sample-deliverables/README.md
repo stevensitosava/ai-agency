@@ -1,33 +1,51 @@
 # Sample Deliverables
 
-Real output produced by the agency on real briefs. These are not curated cherry-picks — they're verbatim agent output saved during pipeline runs.
+Real output produced by the agency on real briefs. Unedited agent output saved directly from pipeline runs.
 
-## How to read these
+## Brabant fintech pricing strategy — full revision cycle ✅ APPROVED
 
-Each file is the **draft proposal** that came out of the Copywriter agent after the Researcher had gathered notes. The Critic step (which approves or sends back for revision) was not run on these particular drafts due to free-tier quota timing — but the drafts themselves are unedited agent output.
+A complete end-to-end run of the agency on a Dutch B2B fintech brief, including the Critic's revision loop closing successfully on revision 1.
 
-| File | Brief |
+| File | What it is |
 |---|---|
-| [`pricing-strategy-brabant-fintech.md`](pricing-strategy-brabant-fintech.md) | "Pricing strategy for a Dutch B2B fintech entering Brabant manufacturing" |
+| [`pricing-strategy-brabant-fintech.md`](pricing-strategy-brabant-fintech.md) | First Copywriter draft from the research notes |
+| [`pricing-strategy-brabant-fintech-critic-verdict.json`](pricing-strategy-brabant-fintech-critic-verdict.json) | Critic's verdict on draft 1: **REVISE** (5/6 PASS, FAIL on citations) |
+| [`pricing-strategy-brabant-fintech-FINAL.md`](pricing-strategy-brabant-fintech-FINAL.md) | Revised draft after Copywriter addressed the citation feedback |
+| [`pricing-strategy-brabant-fintech-critic-verdict-FINAL.json`](pricing-strategy-brabant-fintech-critic-verdict-FINAL.json) | Critic's verdict on revision: **APPROVE** (6/6 PASS, empty feedback) |
 
-## What "good" looks like
+### The narrative arc
 
-The Critic's six-point rubric:
-1. **Structure** — Executive Summary, Context, Findings, Recommendations, Next Steps, Sources (all present)
-2. **Citations** — every factual claim backed by a numbered source
-3. **Specificity** — Recommendations use concrete verbs (Implement, Offer, Develop), Next Steps use action verbs (Draft, Develop, Schedule, Build) — no "explore" or "investigate"
-4. **Synthesis** — notes are reshaped into a narrative, not dumped verbatim
-5. **Honesty** — explicit when data is missing (e.g. "This is an inference from the research note stating 'not explicitly detailed'")
-6. **Voice** — third-person agency voice, no first-person
+1. **Researcher** → 4 cited research notes (Brabant manufacturing, competitive landscape, pricing models, value-based pricing)
+2. **Copywriter** → produces draft 1
+3. **Critic** → REVISE: "Executive Summary and Context lack citations. Citation numbers in Findings don't match the source they reference."
+4. **Copywriter** (revision) → produces draft 2 addressing both points
+5. **Critic** (round 2) → APPROVE. All six rubric criteria PASS.
 
-The Brabant fintech deliverable passes all six on a read-through.
+### Total cost: ~$0.03
 
-## How they were generated
+| Phase | Model | Cost |
+|---|---|---|
+| Researcher (4 notes) | Gemini 2.5 Flash | ~$0.007 |
+| Copywriter draft 1 | Gemini 2.5 Flash | ~$0.005 |
+| Critic verdict 1 | Gemini 2.5 Pro | $0.00375 |
+| Copywriter draft 2 (revision) | Gemini 2.5 Pro | $0.01385 |
+| Critic verdict 2 | Gemini 2.5 Pro | $0.00253 |
+| **Total** | | **~$0.03** |
+
+A real consulting proposal with cited claims, concrete recommendations, validated by an independent quality gate — for under 3 cents.
+
+### What the Critic actually caught (verdict round 1)
+
+> *"Factual claims in the Executive Summary and Context sections lack citations. Every claim about market size, regional characteristics, or industry challenges must be sourced."*
+
+> *"There are numerous incorrect citations in the Findings section. The cited source number often does not match the content of the claim... All citations must be reviewed and corrected to point to the appropriate source for the specific claim being made."*
+
+Specific. Actionable. Pointed to exact sections. This is the differentiator vs. generic "improve the writing" LLM feedback.
+
+### How to regenerate
 
 ```bash
 uv run python -m backend.app.pipeline "Pricing strategy for a Dutch B2B fintech entering Brabant manufacturing"
 ```
 
-Total cost: under $0.05 per deliverable (Gemini 2.5 Flash for Researcher + Copywriter, Pro for Critic when quota permits).
-
-Time end-to-end: 3-6 minutes on free-tier pacing; ~30 seconds on Tier 1.
+On Tier 1 (no free-tier daily caps), this runs end-to-end in ~30 seconds. On free tier with pacing, ~6-8 minutes.
